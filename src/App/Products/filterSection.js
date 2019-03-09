@@ -9,6 +9,7 @@ import FormGroup from '@material-ui/core/FormGroup';
 import { withStyles } from '@material-ui/core/styles';
 import { debounce } from 'throttle-debounce';
 import produce from 'immer';
+import isEqual from 'lodash.isequal'
 
 class FilterSection extends Component {
   constructor() {
@@ -19,13 +20,17 @@ class FilterSection extends Component {
   }
 
   componentDidUpdate = (prevProps, prevState) => {
-    const { loadProducts } = this.props;
     const { categories } = this.state;
 
-    if (!this.isEqual(prevState.categories, categories)) {
-      loadProducts({ categories })
+    if (!isEqual(prevState, this.state)) {
+      this.loadProducts(categories)
     }
   }
+
+  loadProducts = debounce(300, (categories) => {
+    const { loadProducts } = this.props;
+    loadProducts({ categories });
+  })
 
   isEqual = (prev, current) => {
     if (prev.length !== current.length) {
