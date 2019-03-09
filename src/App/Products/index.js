@@ -12,6 +12,7 @@ class ProductList extends Component {
     super();
     this.state = {
       products: [],
+      meta: {},
     };
   }
 
@@ -21,17 +22,23 @@ class ProductList extends Component {
 
   loadProducts = async (params = {}) => {
     const products = await getProducts(params)
-    this.setState({ products: products.data });
+    this.setState({
+      products: products.data,
+      meta: products.meta,
+    });
   }
 
   render() {
-    const { products } = this.state;
+    const { products, meta } = this.state;
     const { classes } = this.props;
 
     return (
       <Grid className={classes.container} container spacing={0}>
         <Grid className={classes.drawerContainer} item xs={3}>
-          <FilterSection loadProducts={this.loadProducts} />
+          <FilterSection
+            {...{ meta }}
+            loadProducts={this.loadProducts}
+          />
         </Grid>
         <Grid className={classes.drawer} item xs={9}>
           <List data={products} />
