@@ -39,7 +39,7 @@ class List extends Component {
     const { classes, data } = this.props;
 
     return (
-      <Grid className={classes.container} container spacing={12}>
+      <Grid className={classes.container} container>
         { data.map(this.renderItem) }
       </Grid>
     )

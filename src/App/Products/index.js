@@ -1,15 +1,10 @@
 import React, { Component } from 'react';
 import Grid from '@material-ui/core/Grid';
-import Checkbox from '@material-ui/core/Checkbox';
-import Typography from '@material-ui/core/Typography';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormControl from '@material-ui/core/FormControl';
-import FormLabel from '@material-ui/core/FormLabel';
-import FormGroup from '@material-ui/core/FormGroup';
 import { withStyles } from '@material-ui/core/styles';
 
 import { getProducts } from 'Requests'
 import List from './itemList';
+import FilterSection from './filterSection';
 
 
 class ProductList extends Component {
@@ -20,8 +15,12 @@ class ProductList extends Component {
     };
   }
 
-  async componentDidMount() {
-    const products = await getProducts()
+  componentDidMount() {
+    this.loadProducts()
+  }
+
+  loadProducts = async (params = {}) => {
+    const products = await getProducts(params)
     this.setState({ products: products.data });
   }
 
@@ -32,25 +31,7 @@ class ProductList extends Component {
     return (
       <Grid className={classes.container} container spacing={0}>
         <Grid className={classes.drawerContainer} item xs={3}>
-          <Grid className={classes.drawer} item xs={12}>
-            <FormControl>
-              <FormLabel>
-                <Typography variant="h6" gutterBottom>
-                  Categories
-                </Typography>
-              </FormLabel>
-              <FormGroup>
-                <FormControlLabel
-                  control={<Checkbox value="makeup" color="primary" />}
-                  label="Makeup"
-                />
-                <FormControlLabel
-                  control={<Checkbox value="organic" color="primary" />}
-                  label="Organic"
-                />
-              </FormGroup>
-            </FormControl>
-          </Grid>
+          <FilterSection loadProducts={this.loadProducts} />
         </Grid>
         <Grid className={classes.drawer} item xs={9}>
           <List data={products} />
