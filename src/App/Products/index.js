@@ -8,9 +8,25 @@ import FormLabel from '@material-ui/core/FormLabel';
 import FormGroup from '@material-ui/core/FormGroup';
 import { withStyles } from '@material-ui/core/styles';
 
+import { getProducts } from 'Requests'
+import List from './itemList';
+
 
 class ProductList extends Component {
+  constructor() {
+    super();
+    this.state = {
+      products: [],
+    };
+  }
+
+  async componentDidMount() {
+    const products = await getProducts()
+    this.setState({ products: products.data });
+  }
+
   render() {
+    const { products } = this.state;
     const { classes } = this.props;
 
     return (
@@ -37,6 +53,7 @@ class ProductList extends Component {
           </Grid>
         </Grid>
         <Grid className={classes.drawer} item xs={9}>
+          <List data={products} />
         </Grid>
       </Grid>
     )
