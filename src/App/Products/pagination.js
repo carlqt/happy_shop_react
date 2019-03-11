@@ -1,0 +1,68 @@
+import React, { Component } from 'react';
+import { withStyles } from '@material-ui/core/styles';
+import IconButton from '@material-ui/core/IconButton';
+import LastPageIcon from '@material-ui/icons/LastPage';
+import FirstPageIcon from '@material-ui/icons/FirstPage';
+import NextIcon from '@material-ui/icons/KeyboardArrowRight';
+import PrevIcon from '@material-ui/icons/KeyboardArrowLeft';
+
+
+class Pagination extends Component {
+  gotoFirstPage = () => {
+    const { pageUpdate } = this.props;
+
+    pageUpdate(1)
+  }
+
+  gotoLastPage = () => {
+    const { pageUpdate, meta } = this.props;
+    const { total_pages: totalPages } = meta;
+
+    pageUpdate(totalPages)
+  }
+
+  nextPage = () => {
+    const { pageUpdate, meta } = this.props;
+    const {
+      total_pages: totalPages,
+      page,
+    } = meta;
+
+    if (page < totalPages) {
+      pageUpdate(page + 1)
+    }
+  }
+
+  previousPage = () => {
+    const { pageUpdate, meta } = this.props;
+    const {
+      page,
+    } = meta;
+
+    if (page > 1) {
+      pageUpdate(page - 1)
+    }
+  }
+
+  render() {
+    return (
+      <React.Fragment>
+        <IconButton onClick={this.gotoFirstPage}><FirstPageIcon /></IconButton>
+        <IconButton onClick={this.previousPage}><PrevIcon /></IconButton>
+        <IconButton onClick={this.nextPage}><NextIcon /></IconButton>
+        <IconButton onClick={this.gotoLastPage}><LastPageIcon /></IconButton>
+      </React.Fragment>
+    )
+  }
+}
+
+const styles = theme => ({
+  container: {
+    height: '100vh',
+  },
+  drawer: {
+    padding: 24,
+  },
+});
+
+export default withStyles(styles)(Pagination);

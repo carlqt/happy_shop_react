@@ -2,12 +2,15 @@ import React, { Component } from 'react';
 import Grid from '@material-ui/core/Grid';
 import { withStyles } from '@material-ui/core/styles';
 import isEqual from 'lodash.isequal';
+import Typography from '@material-ui/core/Typography';
 
 import { getProducts } from 'Requests'
 import List from './itemList';
 import FilterSection from './filterSection';
 import produce from 'immer';
 import { debounce } from 'throttle-debounce';
+import Pagination from './pagination';
+
 
 class ProductList extends Component {
   constructor() {
@@ -18,7 +21,8 @@ class ProductList extends Component {
       queryParams: {
         sort: '',
         categories: [],
-        priceRange: [0, 30000]
+        priceRange: [0, 30000],
+        page: 1,
       },
     };
   }
@@ -106,13 +110,37 @@ class ProductList extends Component {
     )
   }
 
+  pageUpdate = (page) => {
+    this.setState(
+      produce(draft => {
+        draft.queryParams.page = page
+      })
+    )
+  }
+
+  renderPageDisplay = () => {
+    const { meta } = this.state;
+
+    if (Object.keys(meta).length === 0) {
+      return '';
+    }
+
+    const {
+      total_items: totalItems,
+      to,
+      from,
+    } = meta;
+
+    return `SHOWING ${from}-${to} of ${totalItems} RESULTS`
+  }
+
   render() {
+    const { classes } = this.props;
     const {
       products,
       meta,
       queryParams,
     } = this.state;
-    const { classes } = this.props;
 
     return (
       <Grid className={classes.container} container spacing={0}>
@@ -125,7 +153,7 @@ class ProductList extends Component {
           />
         </Grid>
         <Grid className={classes.drawer} item xs={9}>
-          <Grid className={classes.drawer} item xs={12}>
+          <Grid item xs={12}>
             <label>
               Sort By: 
               <select value={queryParams.sort} onChange={this.handleSelect}>
@@ -134,6 +162,13 @@ class ProductList extends Component {
                 <option value="-price">Price (high to low)</option>
               </select>
             </label>
+            <Pagination
+              {...{ meta, queryParams }}
+              pageUpdate={this.pageUpdate}
+            />
+            <Typography style={{display: 'inline-block'}} variant="h6">
+              { this.renderPageDisplay() }
+            </Typography>
           </Grid>
           <List data={products} />
         </Grid>
