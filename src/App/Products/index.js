@@ -50,10 +50,12 @@ class ProductList extends Component {
   }))
 
   onFilterSelect = (e) => {
-    if (e.target.checked) {
-      this.addCategory(e.target.value)
+    const { checked, value } = e.target
+
+    if (checked) {
+      this.addCategory(value)
     } else {
-      this.removeCategory(e.target.value)
+      this.removeCategory(value)
     }
   }
 
