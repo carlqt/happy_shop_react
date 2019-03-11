@@ -63,6 +63,7 @@ class ProductList extends Component {
     this.setState(
       produce(draft => {
         draft.queryParams.categories.push(val)
+        draft.queryParams.page = 1
       })
     )
   }
@@ -71,6 +72,7 @@ class ProductList extends Component {
     this.setState(
       produce(draft => {
         draft.queryParams.categories = draft.queryParams.categories.filter(item => item !== val)
+        draft.queryParams.page = 1
       })
     )
   }
@@ -79,6 +81,7 @@ class ProductList extends Component {
     this.setState(
       produce(draft => {
         draft.queryParams.priceRange = value;
+        draft.queryParams.page = 1
       })
     )
   }
