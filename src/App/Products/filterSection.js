@@ -49,6 +49,10 @@ class FilterSection extends Component {
               control={<Checkbox onChange={onFilterSelect} value="accessories" color="primary" />}
               label="Accessories"
             />
+            <FormControlLabel
+              control={<Checkbox onChange={onFilterSelect} value="natural" color="primary" />}
+              label="Natural"
+            />
             <FormLabel>
               <Typography variant="h6" gutterBottom>
                 Price Range

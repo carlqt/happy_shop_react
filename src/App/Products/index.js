@@ -10,7 +10,7 @@ import FilterSection from './filterSection';
 import produce from 'immer';
 import { debounce } from 'throttle-debounce';
 import Pagination from './pagination';
-
+import 'typeface-roboto';
 
 class ProductList extends Component {
   constructor() {
@@ -139,6 +139,11 @@ class ProductList extends Component {
     return `SHOWING ${from}-${to} of ${totalItems} RESULTS`
   }
 
+  redirect = (id) => {
+    const { history } = this.props;
+    history.push(`/products/${id}`)
+  }
+
   render() {
     const { classes } = this.props;
     const {
@@ -175,7 +180,7 @@ class ProductList extends Component {
               { this.renderPageDisplay() }
             </Typography>
           </Grid>
-          <List data={products} />
+          <List onItemClick={this.redirect} data={products} />
         </Grid>
       </Grid>
     )

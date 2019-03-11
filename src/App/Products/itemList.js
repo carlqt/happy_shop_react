@@ -12,12 +12,12 @@ import { withStyles } from '@material-ui/core/styles';
 
 class List extends Component {
   renderItem = (item) => {
-    const { classes } = this.props;
-    const { price } = item;
+    const { classes, onItemClick } = this.props;
+    const { id, price } = item;
 
     return(
       <Card key={item.id} className={classes.card}>
-        <CardActionArea>
+        <CardActionArea onClick={() => onItemClick(id)}>
           <CardMedia
             component="img"
             height="140"

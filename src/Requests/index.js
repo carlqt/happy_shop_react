@@ -15,6 +15,13 @@ function flatten(a, b) {
   return a.concat(b);
 }
 
+export async function getProduct(id) {
+  const url = `${apiRoutes.getProducts}/${id}`;
+
+  const response = await fetch(url);
+  return response.json();
+}
+
 function encodeParams(val) {
   let params;
 
