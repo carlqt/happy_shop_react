@@ -13,8 +13,6 @@ exports[`Products Index renders correctly 1`] = `
     <WithStyles(FilterSection)
       loadProducts={[Function]}
       meta={Object {}}
-      onFilterSelect={[Function]}
-      onSliderChange={[Function]}
       queryParams={
         Object {
           "categories": Array [],
@@ -26,6 +24,7 @@ exports[`Products Index renders correctly 1`] = `
           "sort": "",
         }
       }
+      setFilters={[MockFunction]}
     />
   </WithStyles(Grid)>
   <WithStyles(Grid)
@@ -74,6 +73,7 @@ exports[`Products Index renders correctly 1`] = `
             "sort": "",
           }
         }
+        setFilters={[MockFunction]}
       />
       <WithStyles(Typography)
         style={
