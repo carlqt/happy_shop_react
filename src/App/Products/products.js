@@ -27,66 +27,22 @@ class ProductList extends Component {
   }
 
   componentDidMount() {
-    const { getProducts } = this.props;
-    getProducts();
+    const { getProducts, queryParams } = this.props;
+    getProducts(this.formatFilterParams(queryParams));
   }
 
-  componentDidUpdate = (prevProps, prevState) => {
-    const { queryParams } = this.state;
+  componentDidUpdate = (prevProps) => {
+    const { queryParams } = this.props;
 
-    if (!isEqual(prevState.queryParams, queryParams)) {
+    if (!isEqual(prevProps.queryParams, queryParams)) {
       this.loadProducts(this.formatFilterParams(queryParams))
     }
   }
 
   loadProducts = debounce(300, (async(params = {}) => {
     const { getProducts } = this.props;
-    const products = await getProducts(params)
-
-    this.setState(
-      produce(draft => {
-        draft.products = products.data
-        draft.meta = products.meta
-      })
-    );
+    getProducts(params);
   }))
-
-  onFilterSelect = (e) => {
-    const { checked, value } = e.target
-
-    if (checked) {
-      this.addCategory(value)
-    } else {
-      this.removeCategory(value)
-    }
-  }
-
-  addCategory = (val) => {
-    this.setState(
-      produce(draft => {
-        draft.queryParams.categories.push(val)
-        draft.queryParams.page = 1
-      })
-    )
-  }
-
-  removeCategory = (val) => {
-    this.setState(
-      produce(draft => {
-        draft.queryParams.categories = draft.queryParams.categories.filter(item => item !== val)
-        draft.queryParams.page = 1
-      })
-    )
-  }
-
-  onSliderChange = (value) => {
-    this.setState(
-      produce(draft => {
-        draft.queryParams.priceRange = value;
-        draft.queryParams.page = 1
-      })
-    )
-  }
 
   formatFilterParams = (params) => {
     const {
@@ -126,7 +82,7 @@ class ProductList extends Component {
   }
 
   renderPageDisplay = () => {
-    const { meta } = this.state;
+    const { meta } = this.props;
 
     if (Object.keys(meta).length === 0) {
       return '';
@@ -147,19 +103,23 @@ class ProductList extends Component {
   }
 
   render() {
-    const { classes, products } = this.props;
     const {
+      classes,
+      products,
       meta,
       queryParams,
-    } = this.state;
+      setFilters,
+    } = this.props;
 
     return (
       <Grid className={classes.container} container spacing={0}>
         <Grid className={classes.drawerContainer} item xs={3}>
           <FilterSection
-            {...{ meta, queryParams }}
-            onFilterSelect={this.onFilterSelect}
-            onSliderChange={this.onSliderChange}
+            {...{
+              meta,
+              queryParams,
+              setFilters,
+            }}
             loadProducts={this.loadProducts}
           />
         </Grid>
