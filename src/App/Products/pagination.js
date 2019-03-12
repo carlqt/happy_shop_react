@@ -8,39 +8,46 @@ import PrevIcon from '@material-ui/icons/KeyboardArrowLeft';
 
 
 class Pagination extends Component {
-  gotoFirstPage = () => {
-    const { pageUpdate } = this.props;
+  pageUpdate = (page) => {
+    const { setFilters, queryParams } = this.props;
 
-    pageUpdate(1)
+    setFilters({
+      ...queryParams,
+      page,
+    })
+  }
+
+  gotoFirstPage = () => {
+    this.pageUpdate(1)
   }
 
   gotoLastPage = () => {
-    const { pageUpdate, meta } = this.props;
+    const { meta } = this.props;
     const { total_pages: totalPages } = meta;
 
-    pageUpdate(totalPages)
+    this.pageUpdate(totalPages)
   }
 
   nextPage = () => {
-    const { pageUpdate, meta } = this.props;
+    const { meta } = this.props;
     const {
       total_pages: totalPages,
       page,
     } = meta;
 
     if (page < totalPages) {
-      pageUpdate(page + 1)
+      this.pageUpdate(page + 1)
     }
   }
 
   previousPage = () => {
-    const { pageUpdate, meta } = this.props;
+    const { meta } = this.props;
     const {
       page,
     } = meta;
 
     if (page > 1) {
-      pageUpdate(page - 1)
+      this.pageUpdate(page - 1)
     }
   }
 

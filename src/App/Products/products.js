@@ -134,7 +134,11 @@ class ProductList extends Component {
               </select>
             </label>
             <Pagination
-              {...{ meta, queryParams }}
+              {...{
+                meta,
+                queryParams,
+                setFilters,
+              }}
               pageUpdate={this.pageUpdate}
             />
             <Typography style={{display: 'inline-block'}} variant="h6">
