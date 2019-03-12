@@ -99,7 +99,7 @@ class ProductList extends Component {
     };
 
     if (sort) {
-      obj.sort = sort      
+      obj.sort = sort
     };
 
     return obj;
