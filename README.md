@@ -13,7 +13,7 @@ The "Add to Cart" button is there for aesthetics only. Coming soon.
 
 ### Tech
 
-The Happy Shop Frontend uses a number of open source projects to work properly:
+The Happy Shop Frontend was create using the awesome `create-react-app` and uses a number of open source projects to work properly:
 
 * ReactJS 16.8.4
 * Node 10.15.0
