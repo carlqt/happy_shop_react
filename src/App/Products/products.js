@@ -64,13 +64,13 @@ class ProductList extends Component {
   }
 
   handleSelect = (e) => {
+    const { queryParams, setFilters } = this.props;
     const { value } = e.target;
 
-    this.setState(
-      produce(draft => {
-        draft.queryParams.sort = value;
-      })
-    )
+    setFilters({
+      ...queryParams,
+      sort: value,
+    })
   }
 
   pageUpdate = (page) => {
