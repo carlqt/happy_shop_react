@@ -63,16 +63,6 @@ class ProductList extends Component {
     return obj;
   }
 
-  handleSelect = (e) => {
-    const { queryParams, setFilters } = this.props;
-    const { value } = e.target;
-
-    setFilters({
-      ...queryParams,
-      sort: value,
-    })
-  }
-
   pageUpdate = (page) => {
     this.setState(
       produce(draft => {
@@ -127,11 +117,6 @@ class ProductList extends Component {
           <Grid item xs={12}>
             <label>
               Sort By: 
-              <select value={queryParams.sort} onChange={this.handleSelect}>
-                <option value=""> -- no sort -- </option>
-                <option value="price">Price (low to high)</option>
-                <option value="-price">Price (high to low)</option>
-              </select>
             </label>
             <Pagination
               {...{
